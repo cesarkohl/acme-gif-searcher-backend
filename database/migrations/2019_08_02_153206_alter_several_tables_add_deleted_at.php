@@ -32,6 +32,10 @@ class AlterSeveralTablesAddDeletedAt extends Migration
      */
     public function down()
     {
-        //
+        DB::unprepared("
+            alter table posts drop column deleted_at;
+            alter table searches drop column deleted_at;
+            alter table users drop column deleted_at;
+        ");
     }
 }
