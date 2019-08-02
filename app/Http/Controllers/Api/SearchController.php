@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostCollection;
-use App\Post;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return PostCollection
      */
-    public function index(): PostCollection
+    public function index(Request $request)
     {
-        return new PostCollection(Post::all());
+        $keyword = $request->keyword;
+        if (!$keyword)
+            return null;
+
+        $client = new \GuzzleHttp\Client();
+        $request = $client->get("https://api.giphy.com/v1/gifs/search?api_key=HGXOnJ6SFIXgiM1IOd1h2K9Lo0rOgC3k&q=$keyword&limit=25&offset=0&rating=G&lang=en");
+
+        return $request->getBody()->getContents();
     }
 
     /**
@@ -37,19 +41,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-        ]);
-
-        $post = new Post([
-            'title' => $request->get('title'),
-            'body' => $request->get('body')
-        ]);
-
-        $post->save();
-
-        return response()->json('success');
+        //
     }
 
     /**
@@ -60,8 +52,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
-        return response()->json($post);
+        //
     }
 
     /**
@@ -72,7 +63,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -84,14 +75,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-        ]);
-
-        $post = Post::find($id);
-        $post->update($request->all());
-        return response()->json('successfully updated');
+        //
     }
 
     /**
@@ -102,8 +86,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $post->delete();
-        return response()->json('successfully deleted');
+        //
     }
 }

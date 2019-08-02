@@ -27,12 +27,10 @@ Route::group([ 'middleware' => ['json.response'] ], function () {
         Route::get('logout', 'Api\AuthController@logout');
         Route::get('account', 'Api\AuthController@account');
 
-        Route::post('/post/create', 'PostController@store');
-        Route::get('/post/edit/{id}', 'PostController@edit');
-        Route::post('/post/update/{id}', 'PostController@update');
-        Route::delete('/post/delete/{id}', 'PostController@destroy');
-        Route::get('/posts', 'PostController@index');
+        Route::resource('post', 'Api\PostController');
+        Route::resource('search', 'Api\SearchController');
 
     });
+
 
 });
