@@ -23,7 +23,7 @@ class SearchTest extends PassportTestCase
         $this->get('/api/search')
             ->assertJson([
                 "message" => "The given data was invalid."
-            ]);;
+            ]);
     }
 
     /** @test */

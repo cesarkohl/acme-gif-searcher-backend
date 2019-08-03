@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Post;
 use App\Search;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
 
 class SearchController extends Controller
 {
@@ -111,7 +108,7 @@ class SearchController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function getByUserId(Request $request)
+    public function getByUserId()
     {
         $searches = Search::where('user_id', Auth::user()->id)->get();
         return response()->json($searches);

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use Tests\PassportTestCase;
 
 class AuthTest extends PassportTestCase
