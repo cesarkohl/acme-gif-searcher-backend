@@ -13,16 +13,13 @@ class CreateTableSearch extends Migration
      */
     public function up()
     {
-        DB::unprepared("
-            CREATE TABLE `searches` (
-                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                `user_id` bigint(20) unsigned DEFAULT NULL,
-                `keyword` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                KEY `searches_users_id_fk` (`user_id`),
-                CONSTRAINT `searches_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-        ");
+        Schema::create('searches', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+            $table->string('keyword', 100);
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**

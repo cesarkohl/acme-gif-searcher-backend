@@ -13,16 +13,17 @@ class AlterSeveralTablesAddDeletedAt extends Migration
      */
     public function up()
     {
-        DB::unprepared("
-            alter table posts
-	            add deleted_at timestamp null;
+        Schema::table('posts', function (Blueprint $table) {
+            $table->softDeletes();
+        });
 
-            alter table searches
-	            add deleted_at timestamp null;
+        Schema::table('searches', function (Blueprint $table) {
+            $table->softDeletes();
+        });
 
-            alter table users
-	            add deleted_at timestamp null;
-        ");
+        Schema::table('users', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -32,10 +33,16 @@ class AlterSeveralTablesAddDeletedAt extends Migration
      */
     public function down()
     {
-        DB::unprepared("
-            alter table posts drop column deleted_at;
-            alter table searches drop column deleted_at;
-            alter table users drop column deleted_at;
-        ");
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
+        Schema::table('searches', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

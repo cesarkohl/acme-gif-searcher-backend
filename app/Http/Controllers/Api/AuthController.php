@@ -55,7 +55,7 @@ class AuthController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials))
+        if(!Auth::guard('web')->attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
@@ -99,4 +99,5 @@ class AuthController extends Controller
     {
         return $request->user();
     }
+
 }
