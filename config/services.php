@@ -35,4 +35,9 @@ return [
         'key' => env('GIPHY_KEY')
     ],
 
+    'tenor' => [
+        'uri' => 'https://api.tenor.com/v1/',
+        'key' => env('TENOR_KEY')
+    ]
+
 ];

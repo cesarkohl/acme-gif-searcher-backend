@@ -12,7 +12,9 @@ class SearchTest extends PassportTestCase
         $this->userAuth();
 
         $this->get('/api/search?keyword=test')
-            ->assertJsonStructure(['data']);
+            ->assertJsonMissing([
+                "message" => "The given data was invalid."
+            ]);
     }
 
     /** @test */

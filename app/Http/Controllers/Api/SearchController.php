@@ -28,12 +28,15 @@ class SearchController extends Controller
 
         $client = new \GuzzleHttp\Client();
         $request = $client->get(
-            config('services.giphy.uri') .
-            "search?api_key=" . config('services.giphy.key') .
-            "&q=" . $request->keyword .
-            "&limit=25&offset=0&rating=G&lang=en");
+            config('services.tenor.uri') .
+            "search?key=" . config('services.tenor.key') .
+            "&q=" . $request->keyword);
 
-        return $request->getBody()->getContents();
+        $resultsParsed = [];
+        foreach (json_decode($request->getBody()->getContents())->results as $result)
+            $resultsParsed[] = $result->media[0]->gif->url;
+
+        return json_encode($resultsParsed);
     }
 
     /**
