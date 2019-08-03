@@ -39,7 +39,6 @@ class AuthTest extends PassportTestCase
     public function login_success()
     {
         $user = $this->userAuth();
-        $this->assertAuthenticatedAs($user);
 
         $this
             ->post('/api/login', [
@@ -56,7 +55,6 @@ class AuthTest extends PassportTestCase
     public function login_wrong_password_fail()
     {
         $user = $this->userAuth();
-        $this->assertAuthenticatedAs($user);
 
         $this->post('/api/login', [
                 'email' => $user->email,
@@ -69,10 +67,9 @@ class AuthTest extends PassportTestCase
 
     public function test_logout_success()
     {
-        $user = $this->userAuth();
-        $this->assertAuthenticatedAs($user);
+        $this->userAuth();
 
-        $response = $this->get('/');
+        $response = $this->get('/api/logout');
         $response->assertStatus(200);
     }
 }

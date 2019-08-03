@@ -24,8 +24,14 @@ Route::group([ 'middleware' => ['json.response'] ], function () {
 
     Route::group([ 'middleware' => 'auth:api' ], function() {
 
+        // Specific routes
+
         Route::get('logout', 'Api\AuthController@logout');
         Route::get('account', 'Api\AuthController@account');
+
+        Route::get('search/getByUserId', 'Api\SearchController@getByUserId');
+
+        // Resources routes
 
         Route::resource('post', 'Api\PostController');
         Route::resource('search', 'Api\SearchController');

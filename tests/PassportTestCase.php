@@ -25,6 +25,8 @@ class PassportTestCase extends TestCase
         $this->user = factory(User::class)->create();
         Passport::actingAs($this->user);
 
+        $this->assertAuthenticatedAs($this->user);
+
         return $this->user;
     }
 

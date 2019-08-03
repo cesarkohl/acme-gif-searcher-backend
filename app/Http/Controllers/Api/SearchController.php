@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Post;
+use App\Search;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class SearchController extends Controller
 {
@@ -13,13 +18,23 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->keyword;
+        $request->validate([
+            'keyword' => 'required',
+        ]);
 
-        if (!$keyword)
-            return null;
+        $search = new Search([
+            'user_id' => Auth::user()->id,
+            'keyword' => $request->keyword
+        ]);
+
+        $search->save();
 
         $client = new \GuzzleHttp\Client();
-        $request = $client->get("https://api.giphy.com/v1/gifs/search?api_key=HGXOnJ6SFIXgiM1IOd1h2K9Lo0rOgC3k&q=$keyword&limit=25&offset=0&rating=G&lang=en");
+        $request = $client->get(
+            config('services.giphy.uri') .
+            "search?api_key=" . config('services.giphy.key') .
+            "&q=" . $request->keyword .
+            "&limit=25&offset=0&rating=G&lang=en");
 
         return $request->getBody()->getContents();
     }
@@ -88,5 +103,17 @@ class SearchController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Get historic of search requests by user_id
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUserId(Request $request)
+    {
+        $searches = Search::where('user_id', Auth::user()->id)->get();
+        return response()->json($searches);
     }
 }
