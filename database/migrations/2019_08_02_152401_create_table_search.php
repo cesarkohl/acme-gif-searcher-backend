@@ -15,7 +15,7 @@ class CreateTableSearch extends Migration
     {
         Schema::create('searches', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->string('keyword', 100);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

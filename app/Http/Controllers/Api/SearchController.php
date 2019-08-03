@@ -14,6 +14,7 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->keyword;
+
         if (!$keyword)
             return null;
 

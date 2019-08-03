@@ -3,51 +3,10 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\PassportTestCase;
 
-class AuthTest extends TestCase
+class AuthTest extends PassportTestCase
 {
-//    use RefreshDatabase;
-//    use DatabaseTransactions;
-    use DatabaseMigrations;
-
-    public function testLoginFormDisplayed()
-    {
-        $user = factory(User::class)->create();
-        $response = $this->post('/api/login', [
-            'email' => $user->email,
-            'password' => 'password'
-        ]);
-        $response->assertJson([
-            "token_type" => "Bearer"
-        ]);
-        $response->assertStatus(302);
-        $this->assertAuthenticatedAs($user);
-    }
-
-    /** @test */
-    public function it_gets_the_unit()
-    {
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
-
-        //create password grant client
-        $this->artisan('passport:client', ['--password' =>true, '--no-interaction' => true, '--name'=>'test client']);
-
-        // fetch client for id and secret
-        $client = \DB::table('oauth_clients')->where('password_client', 1)->first();
-        print_r($client); exit;
-
-        $this->json('GET', '/api/logout/')
-            ->assertOk();
-//            ->seeJsonContains(['id' =>  '!BA']);
-    }
-
     /** @test */
     public function sign_up_success()
     {
@@ -79,23 +38,25 @@ class AuthTest extends TestCase
     /** @test */
     public function login_success()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
+        $user = $this->userAuth();
+        $this->assertAuthenticatedAs($user);
 
-        $this->post('/api/login', [
+        $this
+            ->post('/api/login', [
                 'email' => $user->email,
-                'password' => 'password',
+                'password' => 'password'
             ])
             ->assertJson([
                 "token_type" => "Bearer"
-            ]);
+            ])
+            ->assertStatus(200);
     }
 
     /** @test */
     public function login_wrong_password_fail()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
+        $user = $this->userAuth();
+        $this->assertAuthenticatedAs($user);
 
         $this->post('/api/login', [
                 'email' => $user->email,
@@ -106,55 +67,12 @@ class AuthTest extends TestCase
             ]);
     }
 
-    public function test_logout()
+    public function test_logout_success()
     {
-        $response = $this->get('/');
-        $response->assertStatus(200);
-    }
-
-    public function test_account()
-    {
-        $response = $this->get('/');
-        $response->assertStatus(200);
-    }
-
-    ////
-
-    public function test_user_can_login_with_correct_credentials()
-    {
-        $user = factory(User::class)->create([
-            'password' => bcrypt($password = 'password'),
-        ]);
-
-        $this->artisan('config:cache');
-
-//        $this->actingAs($user)
-//            ->post('/api/login', [
-//                'email' => $user->email,
-//                'password' => $password,
-//            ])
-//            ->assertJson([
-//                "token_type" => "Bearer"
-//            ]);
-//
-//        $this->assertAuthenticatedAs($user);
-
-        $response = $this->from('/login')->post('/login', [
-            'email' => $user->email,
-            'password' => 'invalid-password',
-        ]);
+        $user = $this->userAuth();
         $this->assertAuthenticatedAs($user);
-    }
 
-    public function testExample2()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testExample()
-    {
         $response = $this->get('/');
-
         $response->assertStatus(200);
     }
 }
