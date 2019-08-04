@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('r/{code}', 'Api\ShorturlController@redirect');
+
 Route::get('/{any}', function () {
-    return view('welcome');
+    return view('any');
 })->where('any', '.*');

@@ -35,6 +35,7 @@ Route::group([ 'middleware' => ['json.response'] ], function () {
 
         Route::resource('post', 'Api\PostController');
         Route::resource('search', 'Api\SearchController');
+        Route::resource('shorturl', 'Api\ShorturlController');
 
     });
 
