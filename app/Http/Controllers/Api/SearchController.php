@@ -30,11 +30,17 @@ class SearchController extends Controller
         $request = $client->get(
             config('services.tenor.uri') .
             "search?key=" . config('services.tenor.key') .
-            "&q=" . $request->keyword);
+            "&q=" . $request->keyword .
+            "&limit=10"
+        );
 
         $resultsParsed = [];
-        foreach (json_decode($request->getBody()->getContents())->results as $result)
-            $resultsParsed[] = $result->media[0]->gif->url;
+        foreach (json_decode($request->getBody()->getContents())->results as $result) {
+            $resultsParsed[] = [
+                'url' => $result->media[0]->gif->url,
+                'preview' => $result->media[0]->gif->preview
+            ];
+        }
 
         return json_encode($resultsParsed);
     }
@@ -113,7 +119,9 @@ class SearchController extends Controller
      */
     public function getByUserId()
     {
-        $searches = Search::where('user_id', Auth::user()->id)->get();
+        $searches = Search::where('user_id', Auth::user()->id)
+            ->orderByDesc('id')
+            ->get();
         return response()->json($searches);
     }
 }

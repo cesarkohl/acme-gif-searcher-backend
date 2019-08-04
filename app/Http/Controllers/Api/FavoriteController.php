@@ -115,7 +115,9 @@ class FavoriteController extends Controller
     public function getByUserId()
     {
         $favorites = Favorite::with('shorturl')
-            ->where('user_id', Auth::user()->id)->get();
+            ->where('user_id', Auth::user()->id)
+            ->orderByDesc('id')
+            ->get();
 
         return response()->json($favorites);
     }
