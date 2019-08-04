@@ -15,7 +15,7 @@ class ShorturlTest extends PassportTestCase
         $this->post('/api/shorturl', [
                 'uri' => 'https://www.google.com',
             ])
-            ->assertJsonStructure(["uri"]);
+            ->assertJsonStructure(["uri_code"]);
     }
 
     /** @test */

@@ -30,14 +30,15 @@ Route::group([ 'middleware' => ['json.response'] ], function () {
         Route::get('account', 'Api\AuthController@account');
 
         Route::get('search/getByUserId', 'Api\SearchController@getByUserId');
+        Route::get('favorite/getByUserId', 'Api\FavoriteController@getByUserId');
 
         // Resources routes
 
         Route::resource('post', 'Api\PostController');
         Route::resource('search', 'Api\SearchController');
         Route::resource('shorturl', 'Api\ShorturlController');
+        Route::resource('favorite', 'Api\FavoriteController');
 
     });
-
 
 });

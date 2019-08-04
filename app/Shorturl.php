@@ -9,17 +9,21 @@ class Shorturl extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['code', 'uri'];
+    protected $fillable = ['code', 'uri_code', 'uri'];
 
-    protected $hidden = [ 'id', 'created_at', 'updated_at', 'deleted_at' ];
+    protected $hidden = ['id', 'code', 'created_at', 'updated_at', 'deleted_at'];
 
     public function create($uri)
     {
         $shorturl = Shorturl::where('uri', $uri)->first();
 
-        if (!$shorturl) {
+        if (!$shorturl)
+        {
+            $code = hash('ripemd160', $uri);
+
             $shorturl = new Shorturl([
-                'code' => hash('ripemd160', $uri),
+                'code' => $code,
+                'uri_code' => url('/') .'/r/'. $code,
                 'uri' => $uri
             ]);
             $shorturl->save();
@@ -33,8 +37,4 @@ class Shorturl extends Model
         return Shorturl::where('code', $code)->first();
     }
 
-    public function getFullUriAttribute()
-    {
-        return url('/') .'/r/'. $this->code;
-    }
 }

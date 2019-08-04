@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Favorite;
 use App\Http\Controllers\Controller;
 use App\Shorturl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ShorturlController extends Controller
+class FavoriteController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -37,15 +39,19 @@ class ShorturlController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'uri' => 'required'
+            'uri' => 'required',
         ]);
 
         $shorturl = new Shorturl();
         $shorturl = $shorturl->create($request->uri);
 
-        return json_encode([
-            'uri_code' => $shorturl->uri_code
+        $favorite = new Favorite();
+        $favorite = $favorite->create([
+            'user_id' => Auth::user()->id,
+            'shorturl_id' => $shorturl->id
         ]);
+
+        return $favorite;
     }
 
     /**
@@ -93,15 +99,17 @@ class ShorturlController extends Controller
         //
     }
 
-    public function redirect($code)
+    /**
+     * Get historic of search requests by user_id
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUserId()
     {
-        $shorturl = new Shorturl();
-        $shorturl = $shorturl->get($code);
+        $favorites = Favorite::with('shorturl')
+            ->where('user_id', Auth::user()->id)->get();
 
-        return $shorturl ?
-            redirect($shorturl->uri) :
-            json_encode([
-                "message" => "Invalid code"
-            ]);
+        return response()->json($favorites);
     }
 }

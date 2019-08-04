@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableShorturls extends Migration
+class CreateTableFavorites extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateTableShorturls extends Migration
      */
     public function up()
     {
-        Schema::create('shorturls', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code', 100)->unique();
-            $table->string('uri_code', 1000);
-            $table->string('uri', 1000);
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('shorturl_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('shorturl_id')->references('id')->on('shorturls');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateTableShorturls extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shorturls');
+        Schema::dropIfExists('favorites');
     }
 }
