@@ -91,7 +91,7 @@ class PostController extends Controller
 
         $post = Post::find($id);
         $post->update($request->all());
-        return response()->json('successfully updated');
+        return response()->json('Updated successfully');
     }
 
     /**
@@ -104,6 +104,6 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->delete();
-        return response()->json('successfully deleted');
+        return response()->json('Deleted successfully');
     }
 }

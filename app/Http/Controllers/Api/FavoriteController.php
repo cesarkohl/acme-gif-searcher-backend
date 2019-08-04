@@ -96,7 +96,14 @@ class FavoriteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $favorite = Favorite::find($id);
+        if (!$favorite) {
+            return response()->json([ 'message' => 'Does not exist' ]);
+        } else {
+            $favorite->delete();
+            return response()->json([ 'message' => 'Deleted successfully']);
+        }
+
     }
 
     /**
