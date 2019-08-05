@@ -31,12 +31,12 @@ git clone https://github.com/cesarkohl/acme-gif-searcher-backend.git
 cd acme-gif-searcher-backend
 npm install
 composer install
-php artisan migrate
 php artisan serve
 ```
 
 If you change the .env DB_{} variables the following command is mandatory after database installation and configuration:
 ```
+php artisan migrate
 php artisan passport:install
 ```
 
