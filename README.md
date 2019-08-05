@@ -1,5 +1,10 @@
 Acme Gif Searcher
 =
+To help you I created an article to understand the details of the application:
+
+https://medium.com/@cesarkohl/vue-js-laravel-restful-api-application-cbd2af3a888c
+-
+
 The application is made of two parts: webapp (Vue) and backend (Laravel API).
 
 Webapp live demo: http://acme-gif-searcher-webapp.sg8iabcwyc.sa-east-1.elasticbeanstalk.com/
