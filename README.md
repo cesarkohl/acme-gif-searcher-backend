@@ -38,6 +38,7 @@ If you change the .env DB_{} variables the following commands are mandatory:
 ```
 php artisan migrate
 php artisan passport:install
+php artisan serve
 ```
 
 I will be waiting your considerations.
