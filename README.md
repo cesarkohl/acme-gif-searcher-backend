@@ -34,7 +34,7 @@ composer install
 php artisan serve
 ```
 
-If you change the .env DB_{} variables the following command is mandatory after database installation and configuration:
+If you change the .env DB_{} variables the following commands are mandatory:
 ```
 php artisan migrate
 php artisan passport:install
