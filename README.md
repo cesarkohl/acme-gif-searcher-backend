@@ -31,6 +31,7 @@ git clone https://github.com/cesarkohl/acme-gif-searcher-backend.git
 cd acme-gif-searcher-backend
 npm install
 composer install
+php artisan migrate
 php artisan serve
 ```
 
