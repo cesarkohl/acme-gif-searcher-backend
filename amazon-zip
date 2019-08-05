@@ -1,0 +1,2 @@
+: Mac command to ZIP the application for AWS deployment
+rm amazon-deploy.zip; zip amazon-deploy.zip -r . --exclude '*.zip' 'composer.json' 'composer.lock' 'composer.phar' '.bowerrc' '.DS_Store' '.editorconfig' '.git/*' '.gitattributes' '.gitignore' 'virtualhosts' '.idea/*' '.travis.yml' 'amazon-connect' 'amazon-zip' 'amazon-zip-composer' 'bin/*' 'composer.lock' 'Gruntfile.js' 'jade/*' 'logs/*' 'mautic/*' 'node_modules/*' 'package.json' 'package-lock.json' 'phpunit.xml.dist' 'README.md' 'sql/*' 'ssl/*' 'tests/*' 'tmp/*' 'wifi/*'
