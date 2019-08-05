@@ -4,7 +4,7 @@ The application is made of two parts: webapp (Vue) and backend (Laravel API).
 
 Webapp live demo: http://acme-gif-searcher-webapp.sg8iabcwyc.sa-east-1.elasticbeanstalk.com/
 
-Live API demo: http://acme-gif-searcher.sg8iabcwyc.sa-east-1.elasticbeanstalk.com/api/
+API live demo: http://acme-gif-searcher.sg8iabcwyc.sa-east-1.elasticbeanstalk.com/api/
 
 Webapp
 -
